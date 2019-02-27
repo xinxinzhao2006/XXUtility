@@ -7,7 +7,8 @@
 
 ## Example
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+1.日常开发常用宏定义
+2.基础库扩展类
 
 ## Requirements
 
@@ -22,7 +23,7 @@ pod 'XXUtility'
 
 ## Author
 
-1350009686@qq.com, 1350009686@qq.com
+小新, 1350009686@qq.com
 
 ## License
 
