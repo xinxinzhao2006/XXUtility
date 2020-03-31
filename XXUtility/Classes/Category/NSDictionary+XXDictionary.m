@@ -7,8 +7,6 @@
 //
 
 #import "NSDictionary+XXDictionary.h"
-#import "XXMacro.h"
-
 
 @implementation NSDictionary (XXDictionary)
 

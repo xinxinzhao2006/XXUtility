@@ -7,27 +7,9 @@
 //
 
 #import "UIImageView+XXImageView.h"
-#import "XXMacro.h"
-
-
-#define kImgViewBgColor kColorFromHex(0xcdced3)
 
 @implementation UIImageView (XXImageView)
 
-- (instancetype)xx_initLineFrame:(CGRect)frame
-{
-    UIImageView *line = [[UIImageView alloc] initWithFrame:frame];
-    // 配置背景颜色
-    line.backgroundColor = kColor_White;
-    return line;
-}
-- (instancetype)xx_initLineFrame:(CGRect)frame color:(UIColor *)color
-{
-    UIImageView *line = [[UIImageView alloc] initWithFrame:frame];
-    // 配置背景颜色
-    line.backgroundColor = color;
-    return line;
-}
 - (UIImageView *)xx_initWithFrame:(CGRect)frame img:(UIImage *)img
 {
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:frame];

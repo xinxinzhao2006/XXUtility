@@ -14,7 +14,7 @@ typedef void (^TouchedBlock)(NSInteger tag);
 
 @property (copy, nonatomic) NSString *xx_title;
 @property (strong, nonatomic) UIColor *xx_titleColor;
-@property (assign, nonatomic) CGFloat xx_font;
+@property (strong, nonatomic) UIFont *xx_font;
 @property (strong, nonatomic) UIImage *xx_img;
 // 1左 2中 3右
 @property (assign, nonatomic) NSInteger xx_alignment;
@@ -31,7 +31,7 @@ typedef void (^TouchedBlock)(NSInteger tag);
 
  @return 实例化对象
  */
-- (instancetype )xx_initWithFrame:(CGRect)frame andTitle:(NSString *)title cornerRadius:(CGFloat)cornerRadius Block:(TouchedBlock)block;
+- (instancetype )xx_initWithFrame:(CGRect)frame title:(NSString *)title cornerRadius:(CGFloat)cornerRadius Block:(TouchedBlock)block;
 /**
  实例化按钮对象
  
@@ -54,10 +54,10 @@ typedef void (^TouchedBlock)(NSInteger tag);
  设置按钮倒计时
 
  @param timeout    时间
- @param tittle     倒计时结束后的标题
- @param waitTittle 标题后面部分
+ @param title     倒计时结束后的标题
+ @param waitTitle 标题后面部分
  */
--(void)xx_startTime:(NSInteger )timeout title:(NSString *)tittle waitTittle:(NSString *)waitTittle;
+-(void)xx_startTime:(NSInteger )timeout title:(NSString *)title waitTittle:(NSString *)waitTitle;
 /**
  *  @brief  使用颜色设置按钮背景
  *

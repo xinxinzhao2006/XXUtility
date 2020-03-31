@@ -40,6 +40,13 @@ __OSX_AVAILABLE_STARTING(__MAC_10_4, __IPHONE_2_0);
 
 @implementation NSString (XXString)
 
+/**
+ 指定位置插入字符
+ 
+ @param str 插入的字符
+ @param index 位置
+ @return 完成后的字符
+ */
 - (NSString *)xx_insertString:(NSString *)str atIndex:(NSInteger)index
 {
     NSMutableString *targerStr = [[NSMutableString alloc] initWithString:self ];
@@ -96,7 +103,7 @@ __OSX_AVAILABLE_STARTING(__MAC_10_4, __IPHONE_2_0);
  @param fontSize 字体大小
  @return 计算的size
  */
-- (CGSize)calSizeWithMax:(CGSize)maxSize fontSize:(CGFloat)fontSize
+- (CGSize)xx_calSizeWithMax:(CGSize)maxSize fontSize:(CGFloat)fontSize
 {
     NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc]init];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
@@ -137,15 +144,14 @@ __OSX_AVAILABLE_STARTING(__MAC_10_4, __IPHONE_2_0);
     return str;
 }
 /**
- 去 -
+ 去除字符串中的 某个字符
  
  @return 去除后的字符串
  */
-- (NSString *)xx_replac_
+- (NSString *)xx_replacingStr:(NSString *)str
 {
-    NSString *str = [self stringByReplacingOccurrencesOfString: @"-" withString: @""];
-    
-    return str;
+    NSString *strDone = [self stringByReplacingOccurrencesOfString:str withString:@""];
+    return strDone;
 }
 /**
  中文转拼音
@@ -274,40 +280,29 @@ __OSX_AVAILABLE_STARTING(__MAC_10_4, __IPHONE_2_0);
 {
     return [NSURL URLWithString:self];
 }
--(NSString *)xx_UTF8Str
+/**
+ 查询某个字符串在自身的位置
+ 
+ @param str 要查询的字符串
+ @return range
+ */
+- (NSRange )xx_rangeStr:(NSString *)str
 {
-    return [self stringByAddingPercentEscapesUsingEncoding:
-            
-            NSUTF8StringEncoding];;
+    return [self rangeOfString:str];//获取第一次出现的位置
 }
+// NSArray *array = [string componentsSeparatedByString:@"A"]; //从字符A中分隔成2个元素的数组
 
 /**
- 将一个字符串改变中间文字的颜色
+ 以某个字符串做分割
  
- @param changeString 需要改变的字符串
- @param range 范围
- @param color 改变成什么颜色
- @return 改变后的字符串
+ @param str 标识字符
+ @return 分割后的数组
  */
--(NSMutableAttributedString *)xx_sendstring:(NSString *)changeString andRange:(NSRange)range andTextColor:(UIColor *)color
+- (NSArray *)xx_separatedByStr:(NSString *)str
 {
-    NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:changeString];
+    NSArray *array = [self componentsSeparatedByString:str];
     
-    
-    
-    [noteStr addAttribute:NSForegroundColorAttributeName
-     
-                    value:color
-     
-                    range:range];
-  
-    
-    return noteStr;
-    
-    
+    return array;
 }
-
-
-
 
 @end

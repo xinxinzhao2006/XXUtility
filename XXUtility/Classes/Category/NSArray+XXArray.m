@@ -7,8 +7,6 @@
 //
 
 #import "NSArray+XXArray.h"
-#import "XXMacro.h"
-
 
 @implementation NSArray (XXArray)
 
@@ -77,7 +75,7 @@
     {
         NSLog(@"An error happened = %@", error);
     }
-    return @"error";
+    return @"";
     
 }
 // 数组过滤空值
@@ -104,6 +102,56 @@
     }
     
     return [NSArray arrayWithArray:mArr];
+}
+/**
+ 升序排序
+ @return 数组
+ */
+- (NSArray *)xx_ortedArrA_Z
+{
+    NSArray *result = [self sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        
+        return [obj1 compare:obj2]; //升序
+        
+    }];
+    
+    return result;
+}
+/**
+ 降序排序
+ @return 数组
+ */
+- (NSArray *)xx_ortedArrZ_A
+{
+    NSArray *result = [self sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        
+        return [obj2 compare:obj1]; //降序
+        
+    }];
+    
+    return result;
+}
+/**
+ 乱序排序
+ @return 数组
+ */
+- (NSArray *)xx_ortedArrRandom
+{
+    NSArray *result = [self sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        
+        //乱序
+        if (arc4random_uniform(2) == 0) {
+            
+            return [obj2 compare:obj1]; //降序
+            
+        }
+        else{
+            return [obj1 compare:obj2]; //升序
+        }
+        
+    }];
+    
+    return result;
 }
 #pragma mark - 类方法
 // JSON转数组

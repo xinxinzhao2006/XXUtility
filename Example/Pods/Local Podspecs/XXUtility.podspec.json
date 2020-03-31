@@ -1,22 +1,26 @@
 {
   "name": "XXUtility",
-  "version": "0.1.0",
-  "summary": "A short description of XXUtility.",
-  "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/1350009686@qq.com/XXUtility",
+  "version": "0.1.2",
+  "summary": "XXUtility 常用工具类",
+  "description": "# XXUtility 常用工具类",
+  "homepage": "https://github.com/xinxinzhao2006/XXUtility",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
   },
   "authors": {
-    "1350009686@qq.com": "1350009686@qq.com"
+    "小新": "1350009686@qq.com"
   },
   "source": {
-    "git": "https://github.com/1350009686@qq.com/XXUtility.git",
-    "tag": "0.1.0"
+    "git": "https://github.com/xinxinzhao2006/XXUtility.git",
+    "tag": "0.1.2"
   },
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "XXUtility/Classes/**/*"
+  "source_files": "XXUtility/Classes/**/*",
+  "frameworks": [
+    "UIKit",
+    "Foundation"
+  ]
 }

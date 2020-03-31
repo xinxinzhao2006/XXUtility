@@ -10,23 +10,34 @@
 #ifndef XXHeadFile_h
 #define XXHeadFile_h
 
+#import <UIKit/UIKit.h>
 #import "XXMacro.h"
 
+#import "NSString+XXString.h"
 #import "NSArray+XXArray.h"
 #import "NSDictionary+XXDictionary.h"
-#import "NSString+XXString.h"
+#import "UIColor+XXColor.h"
+#import "UIImage+XXImage.h"
+
+#import "NSTimer+XXTimer.h"
+#import "NSDate+XXDate.h"
+
 #import "UIView+XXView.h"
 #import "UILabel+XXLabel.h"
+#import "UITextField+XXTextField.h"
+#import "UILabel+Copy.h"
 #import "UIButton+XXButton.h"
 #import "UIImageView+XXImageView.h"
-#import "UIImage+XXImage.h"
-#import "UIColor+XXColor.h"
-#import "UITableView+XXTableView.h"
-#import "UIViewController+XXViewController.h"
 #import "UIAlertView+XXAlertView.h"
 #import "UITabBar+XXTabBar.h"
-#import "NSString+XXString.h"
-#import "NSTimer+XXTimer.h"
-#import "UITextField+XXTextField.h"
+#import "UITextView+XXTextView.h"
+
+#import "UITableView+XXTableView.h"
+#import "UIViewController+XXViewController.h"
+
+#import "XXTollClass.h"
+
+
+
 
 #endif /* XXHeadFile_h */

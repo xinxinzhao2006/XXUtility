@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
 typedef void(^XXTimerBlock)(NSTimer *timer);
 

@@ -33,7 +33,7 @@
     UIGraphicsEndImageContext();
     return newImage;
 }
-- (UIImage *)fixOrientation {
+- (UIImage *)xx_fixOrientation {
     
     // No-op if the orientation is already correct
     if (self.imageOrientation == UIImageOrientationUp) return self;
@@ -622,78 +622,59 @@
     
     return maskImageRef;
 }
-+ (UIImage *)xx_getDocumentImageWithALLPath:(NSString *)path
++ (UIImage *)xx_getDocumentImageWithPath:(NSString *)path
 {
     // 拿到沙盒路径图片
     UIImage *imgFromUrl3=[[UIImage alloc]initWithContentsOfFile:path];
     return imgFromUrl3;
 }
-+ (UIImage *)xx_getDocumentImageWithPath:(NSString *)path
-{
-    NSString *DocumentsPath = [NSHomeDirectory()stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@",path]];
-    
-    // 拿到沙盒路径图片
-    UIImage *imgFromUrl3=[[UIImage alloc]initWithContentsOfFile:DocumentsPath];
-    return imgFromUrl3;
-    
-}
-// 保存图片到本地沙盒路径返回完整路径
-- (NSString *)xx_saveImageDocumentsAllFile:(NSString *)file name:(NSString *)name
-{
-    //文件管理器
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    //拼接要存放东西的文件夹
-    NSString *pathDocuments = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES)objectAtIndex:0];
-    NSString *createPath = [NSString stringWithFormat:@"%@/%@", pathDocuments,file];
-    
-    //然后保存
-    NSString *filePath = [NSString stringWithFormat:@"%@/%@",file,name];
-    NSString * DocumentsPath = [NSHomeDirectory()stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@",file]];
-    NSString *dbPath = [NSString stringWithFormat:@"%@/%@",DocumentsPath,name];
-    
-    // 判断文件夹是否存在，如果不存在，则创建
-    if (![[NSFileManager defaultManager]fileExistsAtPath:createPath]) {
-        
-        //如果没有就创建这个 想创建的文件夹   （）
-        [fileManager  createDirectoryAtPath:createPath withIntermediateDirectories:YES attributes:nil error:nil];
-        
-        [UIImagePNGRepresentation(self) writeToFile:dbPath atomically:YES];
-        
-    } else {
-        //文件夹存在   直接保存
-        [UIImagePNGRepresentation(self) writeToFile:dbPath atomically:YES];
-    }
-    
-    return dbPath;
-}
-
 // 保存图片到本地沙盒路径
-- (NSString *)xx_saveImageDocumentsFile:(NSString *)file name:(NSString *)name
+- (NSString *)xx_saveImageDocuments:(NSString *)path
 {
-    //文件管理器
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    //拼接要存放东西的文件夹
-    NSString *pathDocuments = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES)objectAtIndex:0];
-    NSString *createPath = [NSString stringWithFormat:@"%@/%@", pathDocuments,file];
+    NSString *path_sandox = NSHomeDirectory();
+    //设置一个图片的存储路径
+    NSString *imagePath = [path_sandox stringByAppendingString:path];
+    //把图片直接保存到指定的路径（同时应该把图片的路径imagePath存起来，下次就可以直接用来取）
+    [UIImagePNGRepresentation(self) writeToFile:imagePath atomically:YES];
     
-    //然后保存
-    NSString *filePath = [NSString stringWithFormat:@"%@/%@",file,name];
-    NSString * DocumentsPath = [NSHomeDirectory()stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@",file]];
-    NSString *dbPath = [NSString stringWithFormat:@"%@/%@",DocumentsPath,name];
+    return imagePath;
+}
+/**
+ * 根据CIImage生成指定大小的UIImage
+ *
+ * @param size 图片宽度
+ */
++ (UIImage *)xx_QRImgWithStr:(NSString *)strUrl size:(CGFloat)size;
+{
     
-    // 判断文件夹是否存在，如果不存在，则创建
-    if (![[NSFileManager defaultManager]fileExistsAtPath:createPath]) {
-        
-        //如果没有就创建这个 想创建的文件夹   （）
-        [fileManager  createDirectoryAtPath:createPath withIntermediateDirectories:YES attributes:nil error:nil];
-        
-        [UIImagePNGRepresentation(self) writeToFile:dbPath atomically:YES];
-        
-    } else {
-        //文件夹存在   直接保存
-        [UIImagePNGRepresentation(self) writeToFile:dbPath atomically:YES];
-    }
+    //1. 实例化二维码滤镜
+    CIFilter *filter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
+    // 2. 恢复滤镜的默认属性
+    [filter setDefaults];
+    // 3. 将字符串转换成NSData
+    NSString *urlStr = strUrl;
+    NSData *data = [urlStr dataUsingEncoding:NSUTF8StringEncoding];
+    // 4. 通过KVO设置滤镜inputMessage数据
+    [filter setValue:data forKey:@"inputMessage"];
+    // 5. 获得滤镜输出的图像
+    CIImage *outputImage = [filter outputImage];
     
-    return filePath;
+    CGRect extent = CGRectIntegral(outputImage.extent);
+    CGFloat scale = MIN(size/CGRectGetWidth(extent), size/CGRectGetHeight(extent));
+    // 1.创建bitmap;
+    size_t width = CGRectGetWidth(extent) * scale;
+    size_t height = CGRectGetHeight(extent) * scale;
+    CGColorSpaceRef cs = CGColorSpaceCreateDeviceGray();
+    CGContextRef bitmapRef = CGBitmapContextCreate(nil, width, height, 8, 0, cs, (CGBitmapInfo)kCGImageAlphaNone);
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CGImageRef bitmapImage = [context createCGImage:outputImage fromRect:extent];
+    CGContextSetInterpolationQuality(bitmapRef, kCGInterpolationNone);
+    CGContextScaleCTM(bitmapRef, scale, scale);
+    CGContextDrawImage(bitmapRef, extent, bitmapImage);
+    // 2.保存bitmap到图片
+    CGImageRef scaledImage = CGBitmapContextCreateImage(bitmapRef);
+    CGContextRelease(bitmapRef);
+    CGImageRelease(bitmapImage);
+    return [UIImage imageWithCGImage:scaledImage];
 }
 @end

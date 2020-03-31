@@ -14,8 +14,6 @@
 #import "UIView+XXView.h"
 #import <objc/runtime.h>
 #import <QuartzCore/QuartzCore.h>
-#import "XXMacro.h"
-
 
 #define k_w [UIScreen mainScreen].bounds.size.width
 #define k_h [UIScreen mainScreen].bounds.size.height
@@ -41,7 +39,7 @@ static char kActionHandlerLongPressGestureKey;
 {
     UIView *line = [[UIView alloc] initWithFrame:frame];
     // 配置背景颜色
-    line.backgroundColor = kColor_White;
+    line.backgroundColor = kImgViewBgColor;
     return line;
 }
 // 画线 自定义颜色
@@ -52,7 +50,7 @@ static char kActionHandlerLongPressGestureKey;
     line.backgroundColor = color;
     return line;
 }
-    
+
 /**
  *  @brief  view截图
  *
@@ -435,7 +433,7 @@ static char kActionHandlerLongPressGestureKey;
  *  @param block 代码块
  */
 - (void)xx_addTapActionWithBlock:(GestureActionBlock)block
-{    
+{
     UITapGestureRecognizer *gesture = objc_getAssociatedObject(self, &kActionHandlerTapGestureKey);
     if (!gesture)
     {
@@ -574,7 +572,7 @@ static char kActionHandlerLongPressGestureKey;
 }
 - (CGFloat)xx_y
 {
-   return  self.frame.origin.y;
+    return  self.frame.origin.y;
 }
 - (void)setXx_y:(CGFloat)xx_y
 {

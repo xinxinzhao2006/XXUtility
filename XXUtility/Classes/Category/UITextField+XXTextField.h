@@ -1,32 +1,31 @@
 //
 //  UITextField+XXTextField.h
-//  Unity-iPhone
+//  XXModule
 //
-//  Created by yf-zhaonx on 2018/11/8.
+//  Created by yf-zhaonx on 2020/3/26.
+//  Copyright © 2020 小新. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef enum XXTextFieldStyle {
+    
+    //枚举名 _ 类型
+    XXTextFieldStyle_none  = 0,
+    XXTextFieldStyle_border,
+    XXTextFieldStyle_line,
+    
+} XXTextFieldStyle;
+
 @interface UITextField (XXTextField)
-/*
- 
- // 使用方法 ：监听代理，调用方法
- - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
- {
-    // 限制特殊字符
-    return [textField xx_filtr:string];
-    // 限制只能输入数字 保留两位小数
-    return [textField xx_limitNumber:range str:string];
- 
-    return YES;
- }
- */
-// 限制键盘只能输入数字  且两位小数
-- (BOOL)xx_limitNumber:(NSRange)range str:(NSString *)string;
-// 过滤掉特殊符号  及表情符号
-- (BOOL)xx_filtr:(NSString *)string;
+
+@property (strong, nonatomic) UIColor *xx_borderColor ;
+
+- (instancetype )xx_initWithFrame:(CGRect)frame placeholder:(NSString *)placeholder color:(UIColor *)color;
+
+- (instancetype )xx_initWithFrame:(CGRect)frame placeholder:(NSString *)placeholder color:(UIColor *)color cornerRadius:(CGFloat)cornerRadius style:(XXTextFieldStyle)style;
 
 
 @end

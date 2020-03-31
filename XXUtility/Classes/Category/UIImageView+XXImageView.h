@@ -10,7 +10,6 @@
 
 @interface UIImageView (XXImageView)
 
-
 /**
  初始化imgView
  
@@ -24,22 +23,5 @@
  *  @brief  倒影
  */
 - (void)reflect;
-
-/**
- 画线
- 
- @param frame frame
- @param color 颜色
- @return 实例化对象
- */
-- (instancetype)xx_initLineFrame:(CGRect)frame color:(UIColor *)color;
-
-/**
- 画线 默认颜色
- 
- @param frame frame
- @return 实例化对象
- */
-- (instancetype)xx_initLineFrame:(CGRect)frame;
 
 @end

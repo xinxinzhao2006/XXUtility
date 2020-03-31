@@ -61,6 +61,40 @@
         [self.navigationController popToViewController:vc animated:animated];
     }
 }
+// present animated 默认YES
+- (void)xx_presentVC:(UIViewController *)vc
+{
+    [self xx_presentVC:vc animated:YES];
+}
+// present animated 可选
+- (void)xx_presentVC:(UIViewController *)vc animated:(BOOL)animated
+{
+    vc.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:vc animated:animated completion:nil];
+}
+// dismiss animated 默认YES
+- (void)xx_dismiss
+{
+    [self xx_dismissAnimated:YES];
+}
+// dismiss animated 可选
+- (void)xx_dismissAnimated:(BOOL)animated
+{
+    [self dismissViewControllerAnimated:animated completion:nil];
+}
+// setNavigationBarHidden animated 默认YES
+- (void)xx_setNavHidden:(BOOL)hideen
+{
+    [self xx_setNavHidden:hideen animated:YES];
+}
+// setNavigationBarHidden animated 可选
+- (void)xx_setNavHidden:(BOOL)hideen animated:(BOOL)animated
+{
+    if (self.navigationController)
+    {
+        [self.navigationController setNavigationBarHidden:hideen animated:animated];
+    }
+}
 /**
  通过sb获取控制器
  

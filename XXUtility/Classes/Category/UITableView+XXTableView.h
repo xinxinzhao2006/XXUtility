@@ -12,8 +12,12 @@
 
 // 注册nib
 -(void)xx_registerNib:(NSString *)nibName identifier:(NSString *)identifier;
-// 刷新行
+// 刷新一行
+- (void)xx_reloadRow:(NSIndexPath *)indexPath;
+// 刷新行一组
 - (void)xx_reloadRows:(NSArray *)arr;
+// 刷新一行
+- (void)xx_reloadSection:(NSIndexPath *)indexPath;
 // 刷新组
 - (void)xx_reloadSections:(NSArray *)sections;
 // 获得cell

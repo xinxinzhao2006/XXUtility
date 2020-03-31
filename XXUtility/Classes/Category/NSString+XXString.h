@@ -9,8 +9,18 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#define kJsonDic(str) [dic xx_toJson]
+
+
 @interface NSString (XXString)
 
+/**
+ 指定位置插入字符
+
+ @param str 插入的字符
+ @param index 位置
+ @return 完成后的字符
+ */
 - (NSString *)xx_insertString:(NSString *)str atIndex:(NSInteger)index;
 
 /**
@@ -34,7 +44,7 @@
  @param fontSize 字体大小
  @return 计算的size
  */
-- (CGSize)calSizeWithMax:(CGSize)maxSize fontSize:(CGFloat)fontSize;
+- (CGSize)xx_calSizeWithMax:(CGSize)maxSize fontSize:(CGFloat)fontSize;
 
 /**
  判断是否为空 为空替换
@@ -99,28 +109,24 @@
  */
 - (NSString *)xx_replacing;
 /**
- 去 -
+ 去除字符串中的 某个字符
  
  @return 去除后的字符串
  */
-- (NSString *)xx_replac_;
+- (NSString *)xx_replacingStr:(NSString *)str;
 /**
- UTF8编码
+ 查询某个字符串在自身的位置
 
- @return 转码后字符串
+ @param str 要查询的字符串
+ @return range
  */
--(NSString *)xx_UTF8Str;
-
+- (NSRange )xx_rangeStr:(NSString *)str;
 /**
- 将一个字符串改变中间文字的颜色
- 
- @param changeString 需要改变的字符串
- @param range 范围
- @param color 改变成什么颜色
- @return 改变后的字符串
+ 以某个字符串做分割
+
+ @param str 标识字符
+ @return 分割后的数组
  */
--(NSMutableAttributedString *)xx_sendstring:(NSString *)changeString andRange:(NSRange)range andTextColor:(UIColor *)color;
-
-
+- (NSArray *)xx_separatedByStr:(NSString *)str;
 
 @end

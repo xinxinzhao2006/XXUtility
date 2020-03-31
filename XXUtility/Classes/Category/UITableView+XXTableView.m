@@ -32,7 +32,6 @@
     {
         [self reloadSections:[NSIndexSet indexSetWithIndex:[num integerValue]] withRowAnimation:UITableViewRowAnimationNone];
     }
-    
 }
 // 获得cell
 - (__kindof UITableViewCell *)xx_cellForIndexPath:(NSIndexPath *)indexPath

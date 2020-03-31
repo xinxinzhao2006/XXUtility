@@ -63,6 +63,21 @@ typedef void(^NSArrayBlock)(id obj);
  @return 数组
  */
 + (NSMutableArray *)xx_initWithObjCount:(NSInteger)count;
+/**
+ 升序排序
+ @return 数组
+ */
+- (NSArray *)xx_ortedArrA_Z;
+/**
+ 降序排序
+ @return 数组
+ */
+- (NSArray *)xx_ortedArrZ_A;
+/**
+ 乱序排序
+ @return 数组
+ */
+-(NSArray *)xx_ortedArrRandom;
 
 @end
 

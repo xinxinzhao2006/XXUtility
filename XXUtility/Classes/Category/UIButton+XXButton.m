@@ -26,7 +26,7 @@ static NSString *const kButtonTextObjectKey = @"buttonTextObject";
  
  @return 实例化对象
  */
-- (instancetype)xx_initWithFrame:(CGRect)frame andTitle:(NSString *)title cornerRadius:(CGFloat)cornerRadius Block:(TouchedBlock)block
+- (instancetype)xx_initWithFrame:(CGRect)frame title:(NSString *)title cornerRadius:(CGFloat)cornerRadius Block:(TouchedBlock)block
 {
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -104,9 +104,9 @@ static NSString *const kButtonTextObjectKey = @"buttonTextObject";
 // 点击事件
 -(void)actionTouched:(UIButton *)btn
 {
-    // 限制连续点击
-    self.userInteractionEnabled = NO;
-    [NSTimer scheduledTimerWithTimeInterval:kBtnForbiddenTime target:self selector:@selector(btnEnable:) userInfo:nil repeats:NO];
+//    // 限制连续点击
+//    self.userInteractionEnabled = NO;
+//    [NSTimer scheduledTimerWithTimeInterval:kBtnForbiddenTime target:self selector:@selector(btnEnable:) userInfo:nil repeats:NO];
     
     TouchedBlock block = objc_getAssociatedObject(btn, &btnBlockKey);
     if (block) {
@@ -354,13 +354,13 @@ static NSString *const kButtonTextObjectKey = @"buttonTextObject";
         self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     }
 }
-- (CGFloat)xx_font
+- (UIFont *)xx_font
 {
-    return self.titleLabel.font.pointSize;
+    return self.titleLabel.font;
 }
-- (void)setXx_font:(CGFloat)xx_font
+- (void)setXx_font:(UIFont *)xx_font
 {
-    self.titleLabel.font = [UIFont systemFontOfSize:xx_font];
+    self.titleLabel.font = xx_font;
 }
 - (UIImage *)xx_img
 {

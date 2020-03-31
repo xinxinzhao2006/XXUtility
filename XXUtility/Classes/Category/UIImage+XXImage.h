@@ -8,43 +8,25 @@
 
 #import <UIKit/UIKit.h>
 
+#define kImgFromColor(color) [UIImage xx_createImageWithColor:color]
+#define kImgFromStr(str,size) [UIImage xx_QRImgWithStr:str size:size]
+
 @interface UIImage (XXImage)
+
 // 颜色反转
 - (UIImage *)xx_imageWithColor:(UIColor *)color;
-// 获取沙盒中的图片
-+ (UIImage *)xx_getDocumentImageWithPath:(NSString *)path;
-// 获取沙盒中的图片  完整路径
-+ (UIImage *)xx_getDocumentImageWithALLPath:(NSString *)path;
 // 保存图片到本地沙盒路径
-- (NSString *)xx_saveImageDocumentsFile:(NSString *)file name:(NSString *)name;
-// 保存图片到本地沙盒路径返回完整路径
-- (NSString *)xx_saveImageDocumentsAllFile:(NSString *)file name:(NSString *)name;
+- (NSString *)xx_saveImageDocuments:(NSString *)path;
 // 拍照后图片旋转
-- (UIImage *)fixOrientation;
-
-//加载保存在本地的gif图片
-+ (UIImage *)xx_animatedGIFNamed:(NSString *)name;
-
-//获取到图片的data后重新构造一张可以播放的图片
-+ (UIImage *)xx_animatedGIFWithData:(NSData *)data;
-
+- (UIImage *)xx_fixOrientation;
 //图片按照指定的尺寸缩放
 - (UIImage *)xx_animatedImageByScalingAndCroppingToSize:(CGSize)size;
-/**
- 通过颜色创建图片
-
- @param color 色值
-
- @return 图片
- */
-+ (UIImage *)xx_createImageWithColor:(UIColor*)color;
 /**
  *  @brief  获得灰度图
  *
  *  @return 获得灰度图片
  */
 - (UIImage*)xx_covertToGray;
-
 /**
  *  @brief  取图片某一点的颜色
  *
@@ -82,6 +64,24 @@
  *  @return 增加透明边框后的图片
  */
 - (UIImage *)xx_transparentBorderImage:(NSUInteger)borderSize;
+
+#pragma mark - 类方法
+// 获取沙盒中的图片
++ (UIImage *)xx_getDocumentImageWithPath:(NSString *)path;
+// 获取到图片的data后重新构造一张可以播放的图片
++ (UIImage *)xx_animatedGIFWithData:(NSData *)data;
+// 加载保存在本地的gif图片
++ (UIImage *)xx_animatedGIFNamed:(NSString *)name;
+// 连接转二维码图片
++ (UIImage *)xx_QRImgWithStr:(NSString *)strUrl size:(CGFloat)size;
+/**
+ 通过颜色创建图片
+ 
+ @param color 色值
+ 
+ @return 图片
+ */
++ (UIImage *)xx_createImageWithColor:(UIColor*)color;
 ///**
 // *  @brief  修正图片的方向
 // *

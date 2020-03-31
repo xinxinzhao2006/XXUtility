@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-
 typedef void (^GestureActionBlock)(UIGestureRecognizer *gestureRecoginzer);
 
 typedef NS_OPTIONS(NSUInteger, ExcludePoint) {
@@ -51,9 +50,9 @@ typedef NS_OPTIONS(NSUInteger, ExcludePoint) {
 - (UIImage *)screenshot;
 /**
  max_x + 间隙
-
+ 
  @param space 间隙
-
+ 
  @return 值
  */
 - (CGFloat)xx_max_x_offset:(CGFloat)space;
@@ -83,14 +82,14 @@ typedef NS_OPTIONS(NSUInteger, ExcludePoint) {
 - (CGFloat)xx_y_offset:(CGFloat)space;
 /**
  设置边框 宽 颜色
-
+ 
  @param w     宽度
  @param color 颜色
  */
 - (void)xx_setBorder:(CGFloat )w andColor:(UIColor*)color;
 /**
  设置背景图片
-
+ 
  @param img 图片
  */
 - (void)xx_setBgImg:(UIImage *)img;

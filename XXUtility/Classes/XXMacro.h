@@ -9,21 +9,26 @@
 #ifndef XXMacro_h
 #define XXMacro_h
 
-#import <UIKit/UIKit.h>
+#pragma mark - 常用代码块
 
-#define kHDShow [MBProgressHUD showProgress:kWindow]
-#define kHDHide [MBProgressHUD hideHUDForView:kWindow]
+typedef void(^XXObjBlock)(id obj);
+typedef void(^XXDicBlock)(NSDictionary *dic);
+typedef void(^XXArrBlock)(NSArray *arr);
+typedef void(^XXBOOLBlock)(BOOL isTrue);
+typedef void(^XXIntegerBlock)(NSInteger num);
+typedef void(^XXFloatBlock)(CGFloat num);
+typedef void(^XXVoidBlock)(void);
+typedef void(^XXStrBlock)(NSString *action);
+typedef void(^XXCallBackBlock)(NSString *action,NSInteger index);
 
 // 国际化语言
-#define kLocLanguage(str) NSLocalizedString(str, nil)
+#define kLocLanguage(str) [[[XXAppManager Shared] currentLanguageBundle] localizedStringForKey:str value:@"" table:nil]
 
 #pragma mark - 判空
-// ========判空============
 // 字符串
 #define kIsEmptyStr(str)  ([str isKindOfClass:[NSNull class]] || str == nil || [str length] < 1 || [str isEqualToString:@"<null>"] || [str isEqualToString:@"(null)"] ? YES : NO )
 // 判断空并且替换
 #define kIsEmptyStrReplac(str1,str2)  ([str1 isKindOfClass:[NSNull class]] || str1 == nil || [str1 length] < 1 || [str1 isEqualToString:@"<null>"] || [str1 isEqualToString:@"(null)"]? str2 : str1)
-
 // 数组
 #define kIsEmptyArr(array) (array == nil || [array isKindOfClass:[NSNull class]] || array.count == 0)
 // 字典
@@ -34,17 +39,27 @@
 || ([_object respondsToSelector:@selector(length)] && [(NSData *)_object length] == 0) \
 || ([_object respondsToSelector:@selector(count)] && [(NSArray *)_object count] == 0))
 
-#pragma mark - 缩写
-// =========缩写==============
+#pragma mark - 沙盒
 
+// UserDefaults
+#define kUserDef [NSUserDefaults standardUserDefaults]
+
+// UserDefaults 保存
+#define kUserDefSaveObj(obj,key) [[NSUserDefaults standardUserDefaults] setObject:obj forKey:key]
+
+// UserDefaults 读取
+#define kUserDefLoadObj(key) [[NSUserDefaults standardUserDefaults] objectForKey:key]
+
+// UserDefaults 读取
+#define kUserDefDeleteObj(key) [[NSUserDefaults standardUserDefaults] objectForKey:key]
+
+#pragma mark - 缩写
 // 获取Window
 #define kWindow [UIApplication sharedApplication].keyWindow
 // AppDelegate对象
 #define kAppDelegate [[UIApplication sharedApplication] delegate]
 // Application
 #define kApplication        [UIApplication sharedApplication]
-// UserDefaults
-#define kUserDefaults       [NSUserDefaults standardUserDefaults]
 // NotificationCenter
 #define kNotificationCenter [NSNotificationCenter defaultCenter]
 // 获取图片资源
@@ -55,12 +70,6 @@
 #define kIndexPath(x,y) [NSIndexPath indexPathForRow:(y) inSection:(x)]
 // IndexSet
 #define kIndexSet(x) [NSIndexSet indexSetWithIndex:(x)]
-// 取阿里云压缩图片
-#define kOssImg(url,w) [NSString stringWithFormat:@"%@?x-oss-process=image/resize,w_%d",url,w]
-// 可变数组
-#define kMarr(arr) [NSMutableArray arrayWithArray:arr]
-// 可变字典
-#define kMdic(dic)  [NSMutableDictionary dictionaryWithDictionary:dic]
 
 #pragma mark - 尺寸
 // =========尺寸==============
@@ -97,7 +106,7 @@
 #define kSafeAreaBottomHeight (((int)((kScreen_H/kScreen_W)*100) == 216)? 24 : 0)
 
 // 标签栏高
-#define kTab_H 49
+#define kTab_H (49 + kSafeAreaBottomHeight)
 
 // frame
 #define kFrame(x,y,w,h)         CGRectMake((x), (y), (w), (h))
@@ -110,8 +119,16 @@
 
 // 适配比例 iPhone6 为标准  等比例缩放宽高位置 4（320*480） 5（320*568）6（375*667）6+（414*736）
 #define kScale_W(w) ((w)*kScreen_W/kUI_W)
-#define kScale_H(h) ((h)*kScreen_H/kUI_H)
+#define kScale_H(h) ((h)*(kScreen_H == 667 ? 667:736)/kUI_H)
 #define kScale_Frame(x,y,w,h)  CGRectMake(((x)*kScreen_W/kUI_W), ((y)*kScreen_H/kUI_H), ((w)*kScreen_W/kUI_W), ((h)*kScreen_H/kUI_H))
+
+#define kPad_W 578.0
+#define kPad_H 1024.0
+
+#define kScalePad_W(w) ((w)*kPad_W/kUI_W)
+#define kScalePad_H(h) ((h)*kPad_H/kUI_H)
+
+
 // 适配字体大小
 #define kScale_Font(x) [UIFont systemFontOfSize:(x*kScreen_W/kUI_W)]
 // 适配值
@@ -121,29 +138,25 @@
 #define  kPoint(x,y)             CGPointMake((x), (y))
 // 创建尺寸size
 #define  kSize(w,h)              CGSizeMake((w), (h))
-// 字体大小
-#define kFont(x) [UIFont systemFontOfSize:x]
 // 由角度转换弧度
 #define kDegreesToRadian(x)      (M_PI * (x) / 180.0)
 // 由弧度转换角度
 #define kRadianToDegrees(radian) (radian * 180.0) / (M_PI)
 
-#pragma mark - 提示文字
+#pragma mark - 字体
 
-/**
- *  请求提示文字
- */
-#define kTxt_Loading @"请稍后..."
-#define kTxt_Failure @"请求失败--------------------"
-#define kTxt_Error @"错误-----"
-#define kTxt_Success @"成功"
-#define kTxt_NetworkPoor @"网络错误"
-
+// ===========字体大小
+#define kFont(x) [UIFont systemFontOfSize:x]
+#define kFont_Medium(x) [UIFont fontWithName:@"HelveticaNeue-Medium" size:x]
+#define kFont_Bold(x) [UIFont systemFontOfSize:x weight:UIFontWeightBold]
+#define kFont_Regular(x) [UIFont fontWithName:@".HelveticaNeueInterface-Regular" size:x]
+#define kFont_Heavy(x) [UIFont fontWithName:@".HelveticaNeueInterface-Heavy" size:x]
+#define kFont_Light(x) [UIFont fontWithName:@"PingFang-SC-Light" size:x]
 /**
  *  iPhone or iPad
  */
-#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-#define IS_PAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define kIs_iphone (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define kIs_ipad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 //// 自定义输出在调测时
 //#ifdef DEBUG
@@ -174,12 +187,10 @@
 #define kPathDocument [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]
 // 获取沙盒 Cache
 #define kPathCache [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject]
-//获取AppDelegate
-#define appDelegate ((AppDelegate *)[UIApplication sharedApplication].delegate)
 
 //用于控制是否输出调试信息
 #ifdef DEBUG
-#define XXLog(format, ...)  NSLog(format, ## __VA_ARGS__) // printf("--------------\n[%s] %s [第%d行] %s\n", __TIME__, __FUNCTION__, __LINE__, [[NSString stringWithFormat:format, ## __VA_ARGS__] UTF8String]);
+#define XXLog(format, ...) printf("--------------\n[%s] %s [第%d行] %s\n", __TIME__, __FUNCTION__, __LINE__, [[NSString stringWithFormat:format, ## __VA_ARGS__] UTF8String]);
 #else
 #define XXLog(format, ...)
 #endif
@@ -193,66 +204,33 @@
 #define kColorFromHex(s) [UIColor colorWithRed:(((s & 0xFF0000) >> 16))/255.0 green:(((s &0xFF00) >>8))/255.0 blue:((s &0xFF))/255.0 alpha:1.0]
 // 默认白色
 #define kColor_White [UIColor whiteColor]
-// 随机色
-#define kColor_Random [UIColor colorWithRed:arc4random_uniform(256)/255.0 green:arc4random_uniform(256)/255.0 blue:arc4random_uniform(256)/255.0 alpha:1.0]
-// 默认黑色 0.3半透明// 默认黑色 0.3半透明
+// 默认黑色
+#define kColor_Black [UIColor blackColor]
+// 默认黑色 0.3半透明
 #define kColor_Black_03 kRGBA(0,0,0,0.3)
 
+// 随机色
+#define kColor_Random [UIColor colorWithRed:arc4random_uniform(256)/255.0 green:arc4random_uniform(256)/255.0 blue:arc4random_uniform(256)/255.0 alpha:1.0]
 
-// 主题颜色
-#define kColor_Main [UIColor colorWithRed:56/255.0 green:55/255.0 blue:60/255.0 alpha:1.0]
-// 主题辅助颜色（状态，提示等...)
-#define kColor_Assist [UIColor colorWithRed:248/255.0 green:214/255.0 blue:81/255.0 alpha:1.0]
-// 主要字体颜色
-#define kColor_Font [UIColor blackColor]
+// 背景
+#define kBGColor kColor_f5
+// 线
+#define kLineColor kColor_ddd
 
-// ----- App颜色
-//主题红色
-//#define kThemeColor [UIColor colorWithRed:216.0/255.0 green:22.0/255.0 blue:23.0/255.0 alpha:1]
-//主题红色B
-#define kThemeColor_B [UIColor colorWithRed:255.0/255.0 green:138.0/255.0 blue:0.0/255.0 alpha:1]
-//深灰色
-#define kFontDarkColor [UIColor darkGrayColor]
-//背景颜色
-//#define kBGColor [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1]
-//204灰色
-#define kGray204 [UIColor colorWithRed:255.0/255.0 green:138.0/255.0 blue:0.0/255.0 alpha:1]
-
-#define kColor_Line kColorFromHex(0Xdbdfe8)
 // 常用颜色
 #define kColor_333  kColorFromHex(0x333333)
 #define kColor_666  kColorFromHex(0x666666)
 #define kColor_999  kColorFromHex(0x999999)
 #define kColor_ddd  kColorFromHex(0xdddddd)
+#define kColor_eee  kColorFromHex(0xeeeeee)
 
 #define kColor_f5  kColorFromHex(0xf5f5f5)
 #define kColor_f6  kColorFromHex(0xf6f6f6)
 #define kColor_f8  kColorFromHex(0xf8f8f8)
 #define kColor_f9  kColorFromHex(0xf9f9f9)
 #define kColor_fff  kColorFromHex(0xffffff)
-#pragma mark - 线程
 
-// =========线程==============
-//在Main线程上运行
-#define kMain_Thread(mainQueueBlock) dispatch_async(dispatch_get_main_queue(), mainQueueBlock);
 
-//主线程上Demo
-//kMain_Thread(^{
-//更新UI
-//})
-
-//在Global Queue上运行
-#define DISPATCH_ON_GLOBAL_QUEUE_HIGH(globalQueueBlocl) dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), globalQueueBlocl);
-#define DISPATCH_ON_GLOBAL_QUEUE_DEFAULT(globalQueueBlocl) dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), globalQueueBlocl);
-#define DISPATCH_ON_GLOBAL_QUEUE_LOW(globalQueueBlocl) dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), globalQueueBlocl);
-#define DISPATCH_ON_GLOBAL_QUEUE_BACKGROUND(globalQueueBlocl) dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), globalQueueBlocl);
-
-//Global Queue
-//DISPATCH_ON_GLOBAL_QUEUE_DEFAULT(^{
-//异步耗时任务
-//})
-
-//弱引用/强引用  可配对引用在外面用MPWeakSelf(self)，block用MPStrongSelf(self)  也可以单独引用在外面用MPWeakSelf(self) block里面用weakself
 #define kWeakSelf(type)  __weak typeof(type) weak##type = type;
 #define MkStrongSelf(type)  __strong typeof(type) type = weak##type;
 
@@ -260,25 +238,13 @@
 
 #define kIntValue(str) [kIsEmptyStrReplac(str,@"0")  intValue]
 #define kFloatValue(str) [kIsEmptyStrReplac(str,@"0.0") floatValue]
+
 #define kString(str)  [NSString stringWithFormat:@"%@",str]
-#define kStrNum(num)  [NSString stringWithFormat:@"%@",@(num)]
 #define kStrUrl(str) [NSString stringWithFormat:@"http://%@",str]
 #define kStrMerge(str1,str2)  [NSString stringWithFormat:@"%@%@",str1,str2]
-#define kStrEqual(str1,str2) [[NSString stringWithFormat:@"%@",str1] isEqualToString:[NSString stringWithFormat:@"%@",str2]]
-#define kUrl(str1)  [NSURL URLWithString:[NSString stringWithFormat:@"%@",str1]]
-#define kRequest(str1) [NSURLRequest requestWithURL:[NSURL URLWithString:str1]]
+#define kStrEqual(str1,str2) [str1 isEqualToString:str2]
 
-static NSString * const KEY_USERNAME_PASSWORD = @"com.zhouse.app.usernamepassword";
-static NSString * const KEY_USERNAME = @"com.zhouse.app.username";
-static NSString * const KEY_PASSWORD = @"com.zhouse.app.password";
-
-typedef void(^XXObjBlock)(id obj);
-typedef void(^XXDictionaryBlock)(NSDictionary *dic);
-typedef void(^XXNSArrayBlock)(NSArray *arr);
-typedef void(^XXBOOLBlock)(BOOL isTrue);
-typedef void(^XXIntegerBlock)(NSInteger num);
-typedef void(^XXFloatBlock)(CGFloat num);
-typedef void(^XXVoidBlock)();
+#define kUrl(str1)  [NSURL URLWithString:str1]
 
 #endif /* XXMacro_h */
 
