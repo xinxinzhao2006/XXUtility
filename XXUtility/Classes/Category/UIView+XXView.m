@@ -17,7 +17,7 @@
 
 #define k_w [UIScreen mainScreen].bounds.size.width
 #define k_h [UIScreen mainScreen].bounds.size.height
-#define kImgViewBgColor kColorFromHex(0xdddddd)
+#define kImgViewBgColor [UIColor colorWithRed:(((0xdddddd & 0xFF0000) >> 16))/255.0 green:(((0xdddddd &0xFF00) >>8))/255.0 blue:((0xdddddd &0xFF))/255.0 alpha:1.0]
 #define kViewTapForbiddenTime 1.0
 
 typedef NS_ENUM(NSInteger, EdgeType) {
