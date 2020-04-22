@@ -7,6 +7,8 @@
 //
 
 #import "NSArray+XXArray.h"
+#import "XXMacro.h"
+
 
 @implementation NSArray (XXArray)
 
